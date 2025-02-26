@@ -1,23 +1,28 @@
+from math import exp
 import numpy as np
 import matplotlib.pyplot as plt
 
-def dess_signal(TR, TE, FA, T1, T2, PD):
+def DESS_Meniscus(TR_DESS, TE_DESS, FA_DESS, T1_Meniscus, T2_Meniscus, PD):
     """Simulate DESS MRI signal."""
-    E1 = np.exp(-TR / T1)
-    E2 = np.exp(-TE / T2)
-    S_plus = PD * (1 - E1) * np.sin(FA) / (1 - E1 * np.cos(FA))
-    S_minus = S_plus * E2
+    E1_Meniscus = np.exp(-TR / T1_Meniscus)
+    E2_Meniscus = np.exp(-TE / T2_Meniscus)
+    r_meniscus = sqrt((1 - E2_meniscus^2) / ((1 - E1_meniscus * cos(FA_DESS))^2 - E2_meniscus^2 * (E1_meniscus - cos(FA_DESS))^2));
+    S2_S1_Ratio = exp(-2*(TR_DESS - TE_DESS)/T2_Meniscus)
+    S_plus = PD * (1 - E1_Meniscus) * np.sin(FA_DESS) / (1 - E1_Meniscus * np.cos(FA_DESS))
+    S_minus = S_plus * E2_Meniscus
     return S_plus, S_minus
 
 # Example parameters
-TR = 15e-3  # Repetition Time (s)
-TE = 5e-3   # Echo Time (s)
-FA = np.deg2rad(30)  # Flip Angle (rad)
-T1 = 1000e-3  # T1 relaxation time (s)
-T2 = 80e-3    # T2 relaxation time (s)
+TR_DESS = 15e-3  # Repetition Time (s)
+TE_DESS = 5e-3   # Echo Time (s)
+FA_DESS = np.deg2rad(30)  # Flip Angle (rad)
+T1_Cartilage = 900 # ms
+T1_Meniscus = 960 # ms
+T2_Cartilage = 39 # ms  
+T2_Meniscus = 26.7 # ms
 PD = 1.0      # Proton Density
 
-S_plus, S_minus = dess_signal(TR, TE, FA, T1, T2, PD)
+S_plus, S_minus = DESS_Meniscus(TR, TE, FA, T1, T2, PD)
 
 # Plot results
 plt.figure()
